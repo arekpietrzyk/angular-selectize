@@ -56,10 +56,6 @@ angular.module('selectize', []).value('selectizeConfig', {}).directive("selectiz
         selectize.$control.toggleClass('ng-invalid', modelCtrl.$invalid);
         selectize.$control.toggleClass('ng-dirty', modelCtrl.$dirty);
         selectize.$control.toggleClass('ng-pristine', modelCtrl.$pristine);
-
-        if (!angular.equals(selectize.items, scope.ngModel)) {
-          selectize.setValue(scope.ngModel, true);
-        }
       }
 
       settings.onChange = function(value) {
