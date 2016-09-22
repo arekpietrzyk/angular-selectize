@@ -17,7 +17,10 @@ angular.module('selectize', []).value('selectizeConfig', {}).directive("selectiz
       scope.config = scope.config || {};
 
       var isEmpty = function(val) {
-        return val === undefined || val === null || !val.length; //support checking empty arrays
+        if (angular.isArray(val)) {
+          return (val.length === 0);
+        }
+        return modelCtrl.$isEmpty(val); //call to real Angular function
       };
 
       var toggle = function(disabled) {
@@ -39,11 +42,13 @@ angular.module('selectize', []).value('selectizeConfig', {}).directive("selectiz
 
         selectize.addOption(curr, true);
 
-        selectize.refreshOptions(false); // updates results if user has entered a query
         setSelectizeValue();
       }
 
       var setSelectizeValue = function() {
+        if (!angular.equals(selectize.items, scope.ngModel)) {
+          selectize.setValue(scope.ngModel, true);
+        }
         validate();
 
         selectize.$control.toggleClass('ng-valid', modelCtrl.$valid);
